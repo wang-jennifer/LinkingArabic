@@ -1,35 +1,34 @@
-def main():
-    Arabic = "Diary_50_Arabic_EditsStandardized_20150917 (1).html"
+import java.util.*;
+import java.io.*;
 
-    Diary = "lines.html"
-def find
+public class ShellScript {
+	public static void main(String[] args) throws FileNotFoundException {
+		File arabicFile = new File("Diary_50_Arabic_EditsStandardized_20150917 (1).html");
+		Scanner arabicScanner = new Scanner(arabicFile);
+		File diaryFile = new File("Diary_50_20160719_links.html");
+		Scanner diaryScanner = new Scanner(diaryFile);
 
-def replace
+		findIdCell(diaryScanner);
+	}
+	// scan through file to find ID-cell
+	// copies ID (looks like [A50_...])
+	// forms new string that looks like:
+	// <a href= "Diary_50_Arabic_EditsStandardized_20150917 (1).html#A50_009_09:001">Link to arabic</a>
+	public static void findIdCell(Scanner input) {
+		while (input.hasNextLine()) {
+			String line = input.nextLine();
+            String result = "<a href= \"Diary_50_Arabic_EditsStandardized_20150917 (1).html#";
+			if line.contains("[A50_")) {
+                String id = line.substring(line.indexOf("[") + 1, line.indexOf("]")); // from [A50_...] to A50_...
+                result += id + "\">Link to arabic</a>"; // change link name?
+			}
+		}
+	}
+	// method to replace (Scanner file, String replaceWith)
+	// find and replace
+	// insert before the string <a id = "string"> </a>
+	// keep a list of all the ids that we created
+	public static void replace(Scanner input, String replaceWith) {
 
-current = Diary.readline()
-while current:
-    if current.contains(A50)
-        lineToReplace = current
-        lineToReplace = build up a string
-    else
-    current = Diary.readline()
-
-
-
-open edits standardized
-want to open with r+
-line = Diary.readLine
-filedata = filedata.replace('ram', 'abcd')
-parse the file and look for ID-cell
-after the > pick out string from > to <
-copy that string
-find and replace
-insert before the string <a id = "string"> </a>
-
-keep a list of all the ids that we created
-
-open links.html
-search for [A50_
-copy the string below
-insert before the string ->
-<a href= "Diary_50_Arabic_EditsStandardized_20150917 (1).html#A50_009_09:001">Link to arabic</A>
+	}
+}
