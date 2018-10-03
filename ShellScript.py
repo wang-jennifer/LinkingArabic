@@ -8,19 +8,23 @@ public class ShellScript {
 		File diaryFile = new File("Diary_50_20160719_links.html");
 		Scanner diaryScanner = new Scanner(diaryFile);
 
-		findIdCell(diaryScanner);
+      PrintStream idList = new PrintStream("id list.html");
+      findIdCell(arabicScanner, idList);
 	}
-	// scan through file to find ID-cell
-	// copies ID (looks like [A50_...])
-	// forms new string that looks like:
-	// <a href= "Diary_50_Arabic_EditsStandardized_20150917 (1).html#A50_009_09:001">Link to arabic</a>
-	public static void findIdCell(Scanner input) {
+	// scan through file to find ID-cell from given diary file
+	// copies ID A50_... from something like: <td class="ID-cell">A50_004_02:002</td>
+	// forms new string that looks like: <td class="ID-cell"> <a id="A50_004_01:001"></a> A50_004_01:001</td>
+   	// parameters:
+   	//    input - diary file 
+	//	  idList - outputs each id created to new file
+	public static void findIdCell(Scanner input, PrintStream idList) {
 		while (input.hasNextLine()) {
 			String line = input.nextLine();
-            String result = "<a href= \"Diary_50_Arabic_EditsStandardized_20150917 (1).html#";
-			if line.contains("[A50_")) {
-                String id = line.substring(line.indexOf("[") + 1, line.indexOf("]")); // from [A50_...] to A50_...
-                result += id + "\">Link to arabic</a>"; // change link name?
+         String result = "<td class=\"ID-cell\"> <a id=\"";
+			if (line.contains("<td class=\"ID-cell\">A50")) {
+            String id = line.substring(line.indexOf(">") + 1, line.indexOf("</"));
+            result += id + "\"> " + id + "</td>";
+            idList.println(result);
 			}
 		}
 	}
